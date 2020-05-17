@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,6 +39,10 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    private Delivery delivery;
+
     private LocalDateTime orderDate;     //주문시간
 
     @Enumerated(EnumType.STRING)
@@ -64,8 +69,23 @@ public class Order {
         return member;
     }
 
+    // 연관관계 메소드
     public void setMember(Member member) {
+        //기존 관계 제거
+        if(this.member != null)
+            this.member.getOrders().remove(this);
+
         this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public Delivery getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
     }
 
     public LocalDateTime getOrderDate() {
