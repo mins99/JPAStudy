@@ -5,6 +5,13 @@
             timeToIdleSeconds="1200"
             timeToLiveSeconds="1200"
             diskExpiryThreadIntervalSeconds="1200"
-            memoryStoreEvictionPolicy="LRU"
-    />
+            memoryStoreEvictionPolicy="LRU" />
+
+    <cache
+        name = "jpabook.ParentMember"
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToIdleSeconds="600"
+        timeToLiveSeconds="600"
+        overflowToDisk="false" />
 </ehcache>
